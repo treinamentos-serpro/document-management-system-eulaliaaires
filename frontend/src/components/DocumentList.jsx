@@ -18,40 +18,53 @@ function formatDate(isoDate) {
 
 export default function DocumentList({ documents, userId, isLoading, onError }) {
   if (isLoading) {
-    return <p>Carregando documentos...</p>;
+    return <p className="text-sm text-brand-500">Carregando documentos...</p>;
   }
 
   if (documents.length === 0) {
-    return <p>Nenhum documento encontrado.</p>;
+    return <p className="text-sm text-brand-500">Nenhum documento encontrado.</p>;
   }
 
   return (
-    <table style={{ borderCollapse: 'collapse', width: '100%' }}>
-      <thead>
-        <tr>
-          <th style={{ textAlign: 'left' }}>Nome</th>
-          <th style={{ textAlign: 'left' }}>Tamanho</th>
-          <th style={{ textAlign: 'left' }}>Enviado em</th>
-          <th style={{ textAlign: 'left' }}>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        {documents.map((item) => (
-          <tr key={item.id}>
-            <td>{item.originalName}</td>
-            <td>{formatSize(item.size)}</td>
-            <td>{formatDate(item.uploadedAt)}</td>
-            <td>
-              <DownloadButton
-                documentId={item.id}
-                fileName={item.originalName}
-                userId={userId}
-                onError={onError}
-              />
-            </td>
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[32rem] border-collapse text-sm">
+        <thead>
+          <tr className="border-b border-brand-200 bg-brand-50 text-left text-brand-700">
+            <th scope="col" className="px-3 py-2 font-semibold">
+              Nome
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              Tamanho
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              Enviado em
+            </th>
+            <th scope="col" className="px-3 py-2 font-semibold">
+              Ações
+            </th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {documents.map((item, index) => (
+            <tr
+              key={item.id}
+              className={index % 2 === 0 ? 'bg-white' : 'bg-brand-50/60'}
+            >
+              <td className="px-3 py-2 text-brand-700">{item.originalName}</td>
+              <td className="px-3 py-2 text-brand-700">{formatSize(item.size)}</td>
+              <td className="px-3 py-2 text-brand-700">{formatDate(item.uploadedAt)}</td>
+              <td className="px-3 py-2">
+                <DownloadButton
+                  documentId={item.id}
+                  fileName={item.originalName}
+                  userId={userId}
+                  onError={onError}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

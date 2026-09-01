@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { downloadDocument } from '../services/documentsApi';
+import Button from './Button';
 
 export default function DownloadButton({ documentId, fileName, userId, onError }) {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -23,8 +24,8 @@ export default function DownloadButton({ documentId, fileName, userId, onError }
   }
 
   return (
-    <button type="button" onClick={handleClick} disabled={isDownloading}>
+    <Button variant="secondary" onClick={handleClick} disabled={isDownloading}>
       {isDownloading ? 'Baixando...' : 'Baixar'}
-    </button>
+    </Button>
   );
 }

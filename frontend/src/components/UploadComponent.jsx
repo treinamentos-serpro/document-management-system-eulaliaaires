@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { uploadDocument } from '../services/documentsApi';
+import Button from './Button';
 
 export default function UploadComponent({ userId, onUploaded }) {
   const inputRef = useRef(null);
@@ -41,19 +42,26 @@ export default function UploadComponent({ userId, onUploaded }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: 'grid', gap: '0.5rem' }}>
-      <h2>Enviar documento</h2>
+    <form onSubmit={handleSubmit} className="grid gap-4 rounded-lg bg-white p-6 shadow-sm">
+      <h2 className="text-lg font-semibold text-brand-700">Enviar documento</h2>
       <input
         ref={inputRef}
         type="file"
         onChange={(event) => setFile(event.target.files?.[0] ?? null)}
         disabled={isSending}
+        className="block w-full text-sm text-brand-700 file:mr-4 file:rounded-md file:border-0 file:bg-brand-100 file:px-4 file:py-2 file:text-sm file:font-medium file:text-brand-700 hover:file:bg-brand-200 disabled:opacity-60"
       />
-      <button type="submit" disabled={isSending}>
+      <Button type="submit" disabled={isSending} className="w-fit">
         {isSending ? 'Enviando...' : 'Enviar'}
-      </button>
+      </Button>
       {message && (
-        <p style={{ color: message.type === 'error' ? '#b00020' : '#0a7d28' }}>{message.text}</p>
+        <p
+          role="status"
+          aria-live="polite"
+          className={`text-sm font-medium ${message.type === 'error' ? 'text-red-600' : 'text-green-700'}`}
+        >
+          {message.text}
+        </p>
       )}
     </form>
   );
